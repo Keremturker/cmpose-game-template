@@ -1,0 +1,6 @@
+{
+    "name": "Kturker.UnityBase.Core.Navigation",
+    "rootNamespace": "Kturker.UnityBase.Core.Navigation",
+    "references": ["Kturker.UnityBase.Core.Domain", "UniTask", "VContainer"],
+    "autoReferenced": true
+}

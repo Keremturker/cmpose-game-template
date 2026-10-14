@@ -1,0 +1,7 @@
+{
+    "name": "Kturker.UnityBase.Core.Leaderboards.Editor",
+    "rootNamespace": "Kturker.UnityBase.Core.Leaderboards.Editor",
+    "references": [],
+    "includePlatforms": ["Editor"],
+    "autoReferenced": false
+}

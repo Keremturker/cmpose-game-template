@@ -1,0 +1,7 @@
+{
+    "name": "Kturker.UnityBase.Features.Showcase.Runner2D.Domain",
+    "rootNamespace": "Kturker.UnityBase.Features.Showcase.Runner2D.Domain",
+    "references": [],
+    "noEngineReferences": true,
+    "autoReferenced": true
+}

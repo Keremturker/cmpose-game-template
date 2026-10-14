@@ -1,0 +1,12 @@
+{
+    "name": "Kturker.UnityBase.Core.Leaderboards",
+    "rootNamespace": "Kturker.UnityBase.Core.Leaderboards",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Preferences",
+        "Kturker.UnityBase.Core.Presentation",
+        "UniTask",
+        "VContainer"
+    ],
+    "autoReferenced": true
+}

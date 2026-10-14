@@ -1,0 +1,15 @@
+{
+    "name": "Kturker.UnityBase.Features.Showcase.Common.Leaderboards",
+    "rootNamespace": "Kturker.UnityBase.Features.Showcase.Common.Leaderboards",
+    "references": [
+        "Kturker.UnityBase.Features.Showcase.Common",
+        "Kturker.UnityBase.Core.Leaderboards",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Core.Localization",
+        "UniTask",
+        "VContainer",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI"
+    ],
+    "autoReferenced": true
+}

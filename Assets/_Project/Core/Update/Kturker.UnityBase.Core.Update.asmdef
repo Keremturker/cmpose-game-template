@@ -1,0 +1,12 @@
+{
+    "name": "Kturker.UnityBase.Core.Update",
+    "rootNamespace": "Kturker.UnityBase.Core.Update",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Navigation",
+        "Kturker.UnityBase.Core.Preferences",
+        "UniTask",
+        "VContainer"
+    ],
+    "autoReferenced": true
+}

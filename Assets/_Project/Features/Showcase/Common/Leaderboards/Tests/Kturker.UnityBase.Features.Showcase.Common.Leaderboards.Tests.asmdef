@@ -1,0 +1,21 @@
+{
+    "name": "Kturker.UnityBase.Features.Showcase.Common.Leaderboards.Tests",
+    "rootNamespace": "Kturker.UnityBase.Features.Showcase.Common.Leaderboards.Tests",
+    "references": [
+        "Kturker.UnityBase.Features.Showcase.Common.Leaderboards",
+        "Kturker.UnityBase.Features.Showcase.Common",
+        "Kturker.UnityBase.Core.Leaderboards",
+        "Kturker.UnityBase.Core.Leaderboards.Tests",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Tests.EditMode",
+        "UniTask",
+        "VContainer",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": ["Editor"],
+    "overrideReferences": true,
+    "precompiledReferences": ["nunit.framework.dll"],
+    "autoReferenced": false,
+    "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+}

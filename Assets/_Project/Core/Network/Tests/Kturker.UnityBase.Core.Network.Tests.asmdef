@@ -1,0 +1,20 @@
+{
+    "name": "Kturker.UnityBase.Core.Network.Tests",
+    "rootNamespace": "Kturker.UnityBase.Core.Network.Tests",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Network",
+        "Kturker.UnityBase.Core.Localization",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Features.Sample.Network",
+        "Kturker.UnityBase.Tests.EditMode",
+        "UniTask",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": ["Editor"],
+    "overrideReferences": true,
+    "precompiledReferences": ["nunit.framework.dll", "Newtonsoft.Json.dll"],
+    "autoReferenced": false,
+    "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+}

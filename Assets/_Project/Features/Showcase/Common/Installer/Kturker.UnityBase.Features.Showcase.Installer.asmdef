@@ -1,0 +1,16 @@
+{
+    "name": "Kturker.UnityBase.Features.Showcase.Installer",
+    "rootNamespace": "Kturker.UnityBase.Features.Showcase.Installer",
+    "references": [
+        "Kturker.UnityBase.Features.Showcase.Common",
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Core.Ads",
+        "Kturker.UnityBase.Features.Showcase.Common.Ads",
+        "Kturker.UnityBase.Features.Showcase.Common.Purchases",
+        "Kturker.UnityBase.Features.Showcase.Common.Leaderboards",
+        "Kturker.UnityBase.Features.Showcase.Common.Save",
+        "VContainer"
+    ],
+    "autoReferenced": true
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Kturker.UnityBase.Features.Shell.Ads",
+    "rootNamespace": "Kturker.UnityBase.Features.Shell.Ads",
+    "references": [
+        "Kturker.UnityBase.Core.Ads",
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Navigation",
+        "VContainer"
+    ],
+    "autoReferenced": true
+}

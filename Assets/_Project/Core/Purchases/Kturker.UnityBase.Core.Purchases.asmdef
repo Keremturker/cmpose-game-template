@@ -1,0 +1,14 @@
+{
+    "name": "Kturker.UnityBase.Core.Purchases",
+    "rootNamespace": "Kturker.UnityBase.Core.Purchases",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Navigation",
+        "Kturker.UnityBase.Core.Preferences",
+        "Kturker.UnityBase.Core.Presentation",
+        "UniTask",
+        "VContainer",
+        "revenuecat.purchases-unity"
+    ],
+    "autoReferenced": true
+}

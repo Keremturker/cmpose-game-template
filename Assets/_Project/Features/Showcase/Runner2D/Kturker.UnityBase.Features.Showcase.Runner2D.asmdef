@@ -1,0 +1,17 @@
+{
+    "name": "Kturker.UnityBase.Features.Showcase.Runner2D",
+    "rootNamespace": "Kturker.UnityBase.Features.Showcase.Runner2D",
+    "references": [
+        "Kturker.UnityBase.Features.Showcase.Runner2D.Domain",
+        "Kturker.UnityBase.Features.Showcase.Common",
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Core.Audio",
+        "Kturker.UnityBase.Core.Haptics",
+        "Kturker.UnityBase.Core.Localization",
+        "VContainer",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI"
+    ],
+    "autoReferenced": true
+}

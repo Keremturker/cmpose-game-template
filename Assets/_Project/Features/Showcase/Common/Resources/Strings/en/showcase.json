@@ -1,0 +1,13 @@
+{
+  "showcase.best": "Best: {0}",
+  "showcase.score": "Score: {0}",
+  "showcase.gameOver": "Game over",
+  "showcase.newBest": "New best!",
+  "showcase.retry": "Retry",
+  "showcase.menu": "Menu",
+  "showcase.continue": "Continue",
+  "showcase.continueAd": "Continue (ad)",
+  "showcase.adNotReady": "No ad right now, try again later",
+  "showcase.premium": "Premium",
+  "showcase.stats": "Runs: {0}   Stars: {1}"
+}

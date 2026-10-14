@@ -1,0 +1,15 @@
+{
+    "name": "Kturker.UnityBase.Features.Sample.Network",
+    "rootNamespace": "Kturker.UnityBase.Features.Sample.Network",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Network",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Core.Localization",
+        "UniTask",
+        "VContainer",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI"
+    ],
+    "autoReferenced": true
+}

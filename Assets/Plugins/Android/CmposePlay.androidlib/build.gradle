@@ -1,0 +1,25 @@
+apply plugin: 'com.android.library'
+
+// The template's own bridge to Google Play In-App Review and In-App Updates. The package is fixed (it does not follow
+// the game's bundle id). SDK and Java levels come from the gradle.properties Unity writes, so they match the game.
+android {
+    namespace "dev.cmpose.play"
+    compileSdk getProperty("unity.compileSdkVersion") as int
+    buildToolsVersion getProperty("unity.buildToolsVersion")
+
+    compileOptions {
+        sourceCompatibility JavaVersion.valueOf(getProperty("unity.javaCompatabilityVersion"))
+        targetCompatibility JavaVersion.valueOf(getProperty("unity.javaCompatabilityVersion"))
+    }
+
+    defaultConfig {
+        minSdk getProperty("unity.minSdkVersion") as int
+        consumerProguardFiles "consumer-rules.pro"
+    }
+}
+
+dependencies {
+    // Pinned; see MAINTAINING.md "Google Play bridge" before changing them
+    implementation "com.google.android.play:review:2.0.2"
+    implementation "com.google.android.play:app-update:2.1.0"
+}

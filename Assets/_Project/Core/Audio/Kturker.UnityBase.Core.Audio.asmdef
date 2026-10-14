@@ -1,0 +1,6 @@
+{
+    "name": "Kturker.UnityBase.Core.Audio",
+    "rootNamespace": "Kturker.UnityBase.Core.Audio",
+    "references": ["Kturker.UnityBase.Core.Preferences"],
+    "autoReferenced": true
+}

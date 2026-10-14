@@ -1,0 +1,14 @@
+{
+    "name": "Kturker.UnityBase.Features.Showcase.Common.Purchases",
+    "rootNamespace": "Kturker.UnityBase.Features.Showcase.Common.Purchases",
+    "references": [
+        "Kturker.UnityBase.Features.Showcase.Common",
+        "Kturker.UnityBase.Core.Purchases",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Core.Localization",
+        "VContainer",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI"
+    ],
+    "autoReferenced": true
+}

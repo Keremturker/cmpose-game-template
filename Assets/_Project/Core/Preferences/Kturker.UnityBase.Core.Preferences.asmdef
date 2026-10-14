@@ -1,0 +1,6 @@
+{
+    "name": "Kturker.UnityBase.Core.Preferences",
+    "rootNamespace": "Kturker.UnityBase.Core.Preferences",
+    "references": [],
+    "autoReferenced": true
+}

@@ -1,0 +1,16 @@
+{
+    "name": "Kturker.UnityBase.Core.NetworkInspector.Tests",
+    "rootNamespace": "Kturker.UnityBase.Core.NetworkInspector.Tests",
+    "references": [
+        "Kturker.UnityBase.Core.Network",
+        "Kturker.UnityBase.Core.NetworkInspector",
+        "Kturker.UnityBase.Tests.EditMode",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": ["Editor"],
+    "overrideReferences": true,
+    "precompiledReferences": ["nunit.framework.dll"],
+    "autoReferenced": false,
+    "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+}

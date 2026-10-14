@@ -1,0 +1,18 @@
+{
+    "name": "Kturker.UnityBase.Features.Sample.Presentation",
+    "rootNamespace": "Kturker.UnityBase.Features.Sample.Presentation",
+    "references": [
+        "Kturker.UnityBase.Features.Sample.Domain",
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Navigation",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Core.Review",
+        "Kturker.UnityBase.Core.Localization",
+        "Kturker.UnityBase.Core.Save",
+        "UniTask",
+        "VContainer",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI"
+    ],
+    "autoReferenced": true
+}

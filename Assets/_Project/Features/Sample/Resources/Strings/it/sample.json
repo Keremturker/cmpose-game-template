@@ -1,0 +1,7 @@
+{
+  "sample.greeting": "Ciao da {0}",
+  "sample.done": "Ben fatto",
+  "sample.complete": "Completa",
+  "sample.back": "Torna al menu",
+  "sample.completed": "Completati: {0}"
+}

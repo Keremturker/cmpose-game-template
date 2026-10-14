@@ -1,0 +1,7 @@
+{
+    "name": "Kturker.UnityBase.Features.Showcase.Track3D.Domain",
+    "rootNamespace": "Kturker.UnityBase.Features.Showcase.Track3D.Domain",
+    "references": [],
+    "noEngineReferences": true,
+    "autoReferenced": true
+}

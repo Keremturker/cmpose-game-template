@@ -1,0 +1,29 @@
+apply plugin: 'com.android.library'
+
+// The ads flag's Android side: the standard Google Mobile Ads SDK, UMP and the AndroidX libraries the GMA Unity
+// plugin needs (the versions of GoogleMobileAdsDependencies.xml and GoogleUmpDependencies.xml in com.google.ads.mobile;
+// EDM4U's Android resolution is off, see MAINTAINING.md "Ads") and R8 rules for the classes Unity calls through JNI.
+android {
+    namespace "dev.cmpose.ads"
+    compileSdk getProperty("unity.compileSdkVersion") as int
+    buildToolsVersion getProperty("unity.buildToolsVersion")
+
+    compileOptions {
+        sourceCompatibility JavaVersion.valueOf(getProperty("unity.javaCompatabilityVersion"))
+        targetCompatibility JavaVersion.valueOf(getProperty("unity.javaCompatabilityVersion"))
+    }
+
+    defaultConfig {
+        minSdk getProperty("unity.minSdkVersion") as int
+        consumerProguardFiles "consumer-rules.pro"
+    }
+}
+
+dependencies {
+    // api: the plugin's Unity bridge (googlemobileads-unity.aar) runs in unityLibrary and needs these classes
+    api "com.google.android.gms:play-services-ads:25.4.0"
+    api "com.google.android.ump:user-messaging-platform:4.0.0"
+    api "androidx.constraintlayout:constraintlayout:2.1.4"
+    api "androidx.lifecycle:lifecycle-process:2.6.2"
+    api "androidx.fragment:fragment:1.7.1"
+}

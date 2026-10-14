@@ -1,0 +1,9 @@
+{
+    "network.loading": "Loading...",
+    "network.retry": "Retry",
+    "network.error.noConnection": "No internet connection",
+    "network.error.timeout": "The server took too long to answer",
+    "network.error.http": "The server answered with an error ({0})",
+    "network.error.parse": "The answer could not be read",
+    "network.error.cancelled": "The request was cancelled"
+}

@@ -1,0 +1,17 @@
+{
+    "name": "Kturker.UnityBase.Features.Sample.Leaderboards",
+    "rootNamespace": "Kturker.UnityBase.Features.Sample.Leaderboards",
+    "references": [
+        "Kturker.UnityBase.Core.Leaderboards",
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Preferences",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Core.Localization",
+        "Kturker.UnityBase.Features.Sample.Presentation",
+        "UniTask",
+        "VContainer",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI"
+    ],
+    "autoReferenced": true
+}

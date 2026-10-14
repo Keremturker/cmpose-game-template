@@ -1,0 +1,10 @@
+{
+    "name": "Kturker.UnityBase.Core.Network",
+    "rootNamespace": "Kturker.UnityBase.Core.Network",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "UniTask",
+        "VContainer"
+    ],
+    "autoReferenced": true
+}

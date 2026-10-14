@@ -1,0 +1,7 @@
+{
+    "name": "Kturker.UnityBase.Editor.Build",
+    "rootNamespace": "Kturker.UnityBase.Editor.Build",
+    "references": [],
+    "includePlatforms": ["Editor"],
+    "autoReferenced": false
+}

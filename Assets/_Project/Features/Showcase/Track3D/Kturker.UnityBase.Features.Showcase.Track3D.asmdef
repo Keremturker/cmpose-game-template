@@ -1,0 +1,15 @@
+{
+    "name": "Kturker.UnityBase.Features.Showcase.Track3D",
+    "rootNamespace": "Kturker.UnityBase.Features.Showcase.Track3D",
+    "references": [
+        "Kturker.UnityBase.Features.Showcase.Track3D.Domain",
+        "Kturker.UnityBase.Features.Showcase.Common",
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Core.Audio",
+        "Kturker.UnityBase.Core.Haptics",
+        "VContainer",
+        "UnityEngine.UI"
+    ],
+    "autoReferenced": true
+}

@@ -1,0 +1,13 @@
+{
+  "showcase.best": "Record: {0}",
+  "showcase.score": "Punteggio: {0}",
+  "showcase.gameOver": "Partita finita",
+  "showcase.newBest": "Nuovo record!",
+  "showcase.retry": "Riprova",
+  "showcase.menu": "Menu",
+  "showcase.continue": "Continua",
+  "showcase.continueAd": "Continua (pubblicità)",
+  "showcase.adNotReady": "Nessuna pubblicità ora, riprova più tardi",
+  "showcase.premium": "Premium",
+  "showcase.stats": "Partite: {0}   Stelle: {1}"
+}

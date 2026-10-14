@@ -1,0 +1,20 @@
+{
+    "name": "Kturker.UnityBase.Core.Language.Tests",
+    "rootNamespace": "Kturker.UnityBase.Core.Language.Tests",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Language",
+        "Kturker.UnityBase.Core.Localization",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Core.Preferences",
+        "Kturker.UnityBase.Tests.EditMode",
+        "Unity.TextMeshPro",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": ["Editor"],
+    "overrideReferences": true,
+    "precompiledReferences": ["nunit.framework.dll"],
+    "autoReferenced": false,
+    "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+}

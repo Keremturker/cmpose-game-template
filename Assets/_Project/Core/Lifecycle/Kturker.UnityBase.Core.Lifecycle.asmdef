@@ -1,0 +1,6 @@
+{
+    "name": "Kturker.UnityBase.Core.Lifecycle",
+    "rootNamespace": "Kturker.UnityBase.Core.Lifecycle",
+    "references": ["Kturker.UnityBase.Core.Audio", "Kturker.UnityBase.Core.Preferences", "VContainer"],
+    "autoReferenced": true
+}

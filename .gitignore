@@ -1,0 +1,15 @@
+/Library/
+/Temp/
+/Logs/
+/UserSettings/
+/Builds/
+/obj/
+/.utmp/
+*.csproj
+*.sln
+*.slnx
+.DS_Store
+/.vscode/
+/keystore.properties
+*.keystore
+*.jks

@@ -1,0 +1,7 @@
+{
+    "name": "Kturker.UnityBase.Features.Sample.Domain",
+    "rootNamespace": "Kturker.UnityBase.Features.Sample.Domain",
+    "references": [],
+    "noEngineReferences": true,
+    "autoReferenced": true
+}

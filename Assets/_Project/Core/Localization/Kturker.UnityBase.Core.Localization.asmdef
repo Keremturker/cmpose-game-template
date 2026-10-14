@@ -1,0 +1,9 @@
+{
+    "name": "Kturker.UnityBase.Core.Localization",
+    "rootNamespace": "Kturker.UnityBase.Core.Localization",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "Unity.TextMeshPro"
+    ],
+    "autoReferenced": true
+}

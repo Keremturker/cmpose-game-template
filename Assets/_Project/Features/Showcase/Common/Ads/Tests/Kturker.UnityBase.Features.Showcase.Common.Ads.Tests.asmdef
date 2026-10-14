@@ -1,0 +1,22 @@
+{
+    "name": "Kturker.UnityBase.Features.Showcase.Common.Ads.Tests",
+    "rootNamespace": "Kturker.UnityBase.Features.Showcase.Common.Ads.Tests",
+    "references": [
+        "Kturker.UnityBase.Features.Showcase.Common.Ads",
+        "Kturker.UnityBase.Features.Showcase.Common",
+        "Kturker.UnityBase.Core.Ads",
+        "Kturker.UnityBase.Core.Ads.Tests",
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Tests.EditMode",
+        "UniTask",
+        "VContainer",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": ["Editor"],
+    "overrideReferences": true,
+    "precompiledReferences": ["nunit.framework.dll"],
+    "autoReferenced": false,
+    "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+}

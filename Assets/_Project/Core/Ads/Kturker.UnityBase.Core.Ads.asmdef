@@ -1,0 +1,12 @@
+{
+    "name": "Kturker.UnityBase.Core.Ads",
+    "rootNamespace": "Kturker.UnityBase.Core.Ads",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Core.Update",
+        "UniTask",
+        "VContainer"
+    ],
+    "autoReferenced": true
+}

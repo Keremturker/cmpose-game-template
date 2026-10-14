@@ -1,0 +1,6 @@
+{
+    "name": "Kturker.UnityBase.Core.Review",
+    "rootNamespace": "Kturker.UnityBase.Core.Review",
+    "references": ["Kturker.UnityBase.Core.Domain", "Kturker.UnityBase.Core.Preferences"],
+    "autoReferenced": true
+}

@@ -1,0 +1,9 @@
+{
+    "network.loading": "Yükleniyor...",
+    "network.retry": "Tekrar dene",
+    "network.error.noConnection": "İnternet bağlantısı yok",
+    "network.error.timeout": "Sunucu çok geç yanıt verdi",
+    "network.error.http": "Sunucu bir hatayla yanıt verdi ({0})",
+    "network.error.parse": "Yanıt okunamadı",
+    "network.error.cancelled": "İstek iptal edildi"
+}

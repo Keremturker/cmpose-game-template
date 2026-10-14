@@ -1,0 +1,203 @@
+{
+  "flags": {
+    "saveSystem": {
+      "define": "CMPOSE_SAVESYSTEM",
+      "paths": [
+        "Assets/_Project/Core/Save",
+        "Assets/_Project/Features/Sample/Presentation/SavedCompletionCounter.cs",
+        "Assets/_Project/Features/Showcase/Common/Save"
+      ],
+      "asmdefs": ["Kturker.UnityBase.Core.Save", "Kturker.UnityBase.Features.Showcase.Common.Save"],
+      "packages": []
+    },
+    "uiTheme": {
+      "define": "CMPOSE_UITHEME",
+      "paths": [
+        "Assets/_Project/Core/Theme",
+        "Assets/Plugins/iOS/CmposeTheme.mm"
+      ],
+      "asmdefs": ["Kturker.UnityBase.Core.Theme"],
+      "packages": []
+    },
+    "multiLang": {
+      "define": "CMPOSE_MULTILANG",
+      "paths": [
+        "Assets/_Project/Core/Language",
+        "Assets/_Project/Features/Sample/Resources/Strings/tr",
+        "Assets/_Project/Features/Sample/Resources/Strings/fr",
+        "Assets/_Project/Features/Sample/Resources/Strings/es",
+        "Assets/_Project/Features/Sample/Resources/Strings/it",
+        "Assets/_Project/Core/Network/Resources/Strings/tr",
+        "Assets/_Project/Core/Network/Resources/Strings/fr",
+        "Assets/_Project/Core/Network/Resources/Strings/es",
+        "Assets/_Project/Core/Network/Resources/Strings/it",
+        "Assets/_Project/Core/NetworkInspector/Resources/Strings/tr",
+        "Assets/_Project/Core/NetworkInspector/Resources/Strings/fr",
+        "Assets/_Project/Core/NetworkInspector/Resources/Strings/es",
+        "Assets/_Project/Core/NetworkInspector/Resources/Strings/it",
+        "Assets/_Project/Core/Purchases/Resources/Strings/tr",
+        "Assets/_Project/Core/Purchases/Resources/Strings/fr",
+        "Assets/_Project/Core/Purchases/Resources/Strings/es",
+        "Assets/_Project/Core/Purchases/Resources/Strings/it",
+        "Assets/_Project/Core/Ads/Resources/Strings/tr",
+        "Assets/_Project/Core/Ads/Resources/Strings/fr",
+        "Assets/_Project/Core/Ads/Resources/Strings/es",
+        "Assets/_Project/Core/Ads/Resources/Strings/it",
+        "Assets/_Project/Core/Leaderboards/Resources/Strings/tr",
+        "Assets/_Project/Core/Leaderboards/Resources/Strings/fr",
+        "Assets/_Project/Core/Leaderboards/Resources/Strings/es",
+        "Assets/_Project/Core/Leaderboards/Resources/Strings/it",
+        "Assets/_Project/Features/Showcase/Common/Resources/Strings/tr",
+        "Assets/_Project/Features/Showcase/Common/Resources/Strings/fr",
+        "Assets/_Project/Features/Showcase/Common/Resources/Strings/es",
+        "Assets/_Project/Features/Showcase/Common/Resources/Strings/it",
+        "Assets/_Project/Features/Showcase/Runner2D/Resources/Strings/tr",
+        "Assets/_Project/Features/Showcase/Runner2D/Resources/Strings/fr",
+        "Assets/_Project/Features/Showcase/Runner2D/Resources/Strings/es",
+        "Assets/_Project/Features/Showcase/Runner2D/Resources/Strings/it",
+        "Assets/_Project/Features/Showcase/Track3D/Resources/Strings/tr",
+        "Assets/_Project/Features/Showcase/Track3D/Resources/Strings/fr",
+        "Assets/_Project/Features/Showcase/Track3D/Resources/Strings/es",
+        "Assets/_Project/Features/Showcase/Track3D/Resources/Strings/it"
+      ],
+      "asmdefs": ["Kturker.UnityBase.Core.Language"],
+      "packages": []
+    },
+    "network": {
+      "define": "CMPOSE_NETWORK",
+      "paths": [
+        "Assets/_Project/Core/Network",
+        "Assets/_Project/Features/Sample/Network"
+      ],
+      "asmdefs": ["Kturker.UnityBase.Core.Network", "Kturker.UnityBase.Features.Sample.Network"],
+      "packages": ["com.unity.nuget.newtonsoft-json"]
+    },
+    "networkInspector": {
+      "define": "CMPOSE_NETWORKINSPECTOR",
+      "paths": [
+        "Assets/_Project/Core/NetworkInspector"
+      ],
+      "asmdefs": ["Kturker.UnityBase.Core.NetworkInspector"],
+      "packages": [],
+      "requires": ["network"]
+    },
+    "purchases": {
+      "define": "CMPOSE_PURCHASES",
+      "paths": [
+        "Assets/_Project/Core/Purchases",
+        "Assets/_Project/Features/Shell/Purchases",
+        "Assets/_Project/Features/Showcase/Common/Purchases"
+      ],
+      "asmdefs": ["Kturker.UnityBase.Core.Purchases", "Kturker.UnityBase.Features.Shell.Purchases", "Kturker.UnityBase.Features.Showcase.Common.Purchases"],
+      "packages": ["com.revenuecat.purchases-unity", "com.google.external-dependency-manager"]
+    },
+    "ads": {
+      "define": "CMPOSE_ADS",
+      "paths": [
+        "Assets/_Project/Core/Ads",
+        "Assets/_Project/Features/Sample/Ads",
+        "Assets/_Project/Features/Shell/Ads",
+        "Assets/_Project/Features/Showcase/Common/Ads",
+        "Assets/GoogleMobileAds"
+      ],
+      "asmdefs": ["Kturker.UnityBase.Core.Ads", "Kturker.UnityBase.Core.Ads.Editor", "Kturker.UnityBase.Features.Sample.Ads", "Kturker.UnityBase.Features.Shell.Ads", "Kturker.UnityBase.Features.Showcase.Common.Ads"],
+      "packages": ["com.google.ads.mobile", "com.google.external-dependency-manager"]
+    },
+    "leaderboards": {
+      "define": "CMPOSE_LEADERBOARDS",
+      "paths": [
+        "Assets/_Project/Core/Leaderboards",
+        "Assets/_Project/Features/Sample/Leaderboards",
+        "Assets/_Project/Features/Showcase/Common/Leaderboards"
+      ],
+      "asmdefs": ["Kturker.UnityBase.Core.Leaderboards", "Kturker.UnityBase.Core.Leaderboards.Editor", "Kturker.UnityBase.Features.Sample.Leaderboards", "Kturker.UnityBase.Features.Showcase.Common.Leaderboards"],
+      "packages": []
+    },
+    "sample": {
+      "define": "CMPOSE_SAMPLE",
+      "paths": [
+        "Assets/_Project/Features/Sample",
+        "Assets/_Project/Scenes/Game.unity",
+        "Assets/_Project/App/Game/GameInstaller.cs",
+        "Assets/_Project/App/Game/GameScope.cs",
+        "Assets/_Project/App/Game/GuidePresenter.cs",
+        "Assets/_Project/App/Game/GuideView.cs",
+        "Assets/_Project/App/Game/IGuideView.cs",
+        "Assets/_Project/Tests/EditMode/SampleFakes.cs",
+        "Assets/_Project/Tests/EditMode/SamplePresenterTests.cs",
+        "Assets/_Project/Tests/EditMode/ModuleSlotTests.cs",
+        "Assets/_Project/Tests/EditMode/GuidePresenterTests.cs",
+        "Assets/_Project/Core/Ads/Tests/SampleAdsPresenterTests.cs",
+        "Assets/_Project/Core/Leaderboards/Tests/SampleLeaderboardsPresenterTests.cs",
+        "Assets/_Project/Core/Network/Tests/GitHubUserPresenterTests.cs",
+        "Assets/_Project/Core/Save/Tests/SavedCompletionCounterTests.cs"
+      ],
+      "asmdefs": [
+        "Kturker.UnityBase.Features.Sample.Domain",
+        "Kturker.UnityBase.Features.Sample.Presentation",
+        "Kturker.UnityBase.Features.Sample.Installer",
+        "Kturker.UnityBase.Features.Sample.Network",
+        "Kturker.UnityBase.Features.Sample.Ads",
+        "Kturker.UnityBase.Features.Sample.Leaderboards"
+      ],
+      "packages": [],
+      "internal": true
+    },
+    "showcase": {
+      "define": "CMPOSE_SHOWCASE",
+      "paths": [
+        "Assets/_Project/Features/Showcase",
+        "Assets/_Project/Tests/EditMode/ShowcaseFakes.cs",
+        "Assets/_Project/Tests/EditMode/ShowcaseArchitectureTests.cs"
+      ],
+      "asmdefs": [
+        "Kturker.UnityBase.Features.Showcase.Common",
+        "Kturker.UnityBase.Features.Showcase.Installer",
+        "Kturker.UnityBase.Features.Showcase.Common.Ads",
+        "Kturker.UnityBase.Features.Showcase.Common.Purchases",
+        "Kturker.UnityBase.Features.Showcase.Common.Leaderboards",
+        "Kturker.UnityBase.Features.Showcase.Common.Save"
+      ],
+      "packages": [],
+      "internal": true
+    },
+    "runner2D": {
+      "define": "CMPOSE_RUNNER2D",
+      "paths": [
+        "Assets/_Project/Features/Showcase/Runner2D",
+        "Assets/_Project/App/Runner2D",
+        "Assets/_Project/Tests/EditMode/Runner2DFakes.cs"
+      ],
+      "asmdefs": [
+        "Kturker.UnityBase.Features.Showcase.Runner2D",
+        "Kturker.UnityBase.Features.Showcase.Runner2D.Domain"
+      ],
+      "packages": [],
+      "requires": ["showcase"],
+      "internal": true
+    },
+    "track3D": {
+      "define": "CMPOSE_TRACK3D",
+      "paths": [
+        "Assets/_Project/Features/Showcase/Track3D",
+        "Assets/_Project/App/Track3D",
+        "Assets/_Project/Tests/EditMode/Track3DFakes.cs"
+      ],
+      "asmdefs": [
+        "Kturker.UnityBase.Features.Showcase.Track3D",
+        "Kturker.UnityBase.Features.Showcase.Track3D.Domain"
+      ],
+      "packages": [],
+      "requires": ["showcase"],
+      "internal": true
+    }
+  },
+  "renders": {
+    "3d": null,
+    "2d": ".cmpose/layers/render-2d"
+  },
+  "kinds": {
+    "blank": { "off": ["showcase"] },
+    "showcase": { "off": ["sample"], "games": { "2d": "runner2D", "3d": "track3D" } }
+  }
+}

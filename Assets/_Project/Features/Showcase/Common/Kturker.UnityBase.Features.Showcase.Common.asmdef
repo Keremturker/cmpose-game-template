@@ -1,0 +1,16 @@
+{
+    "name": "Kturker.UnityBase.Features.Showcase.Common",
+    "rootNamespace": "Kturker.UnityBase.Features.Showcase.Common",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Navigation",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Core.Preferences",
+        "Kturker.UnityBase.Core.Localization",
+        "UniTask",
+        "VContainer",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI"
+    ],
+    "autoReferenced": true
+}

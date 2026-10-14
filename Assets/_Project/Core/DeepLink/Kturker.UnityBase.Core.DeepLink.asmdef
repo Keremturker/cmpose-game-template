@@ -1,0 +1,6 @@
+{
+    "name": "Kturker.UnityBase.Core.DeepLink",
+    "rootNamespace": "Kturker.UnityBase.Core.DeepLink",
+    "references": ["Kturker.UnityBase.Core.Domain", "Kturker.UnityBase.Core.Navigation", "UniTask", "VContainer"],
+    "autoReferenced": true
+}

@@ -1,0 +1,25 @@
+apply plugin: 'com.android.library'
+
+// The purchases flag's Android side: RevenueCat's native SDK (the version RevenueCatDependencies.xml of
+// com.revenuecat.purchases-unity asks for; EDM4U's Android resolution is off, see MAINTAINING.md "Purchases") and
+// the R8 rule that keeps the classes Unity calls through JNI.
+android {
+    namespace "dev.cmpose.purchases"
+    compileSdk getProperty("unity.compileSdkVersion") as int
+    buildToolsVersion getProperty("unity.buildToolsVersion")
+
+    compileOptions {
+        sourceCompatibility JavaVersion.valueOf(getProperty("unity.javaCompatabilityVersion"))
+        targetCompatibility JavaVersion.valueOf(getProperty("unity.javaCompatabilityVersion"))
+    }
+
+    defaultConfig {
+        minSdk getProperty("unity.minSdkVersion") as int
+        consumerProguardFiles "consumer-rules.pro"
+    }
+}
+
+dependencies {
+    // api: the package's Unity bridge compiles in unityLibrary and needs these classes on its classpath
+    api "com.revenuecat.purchases:purchases-hybrid-common:19.5.0"
+}

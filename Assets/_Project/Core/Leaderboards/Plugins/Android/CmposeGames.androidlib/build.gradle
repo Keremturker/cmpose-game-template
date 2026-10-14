@@ -1,0 +1,25 @@
+apply plugin: 'com.android.library'
+
+// The leaderboards flag's Android side: Google Play Games Services v2 and the template's own thin Java bridge to it
+// (dev.cmpose.games, a fixed package that does not follow the game's bundle id). SDK and Java levels come from the
+// gradle.properties Unity writes, so they match the game. EDM4U is not involved (see MAINTAINING.md "Leaderboards").
+android {
+    namespace "dev.cmpose.games"
+    compileSdk getProperty("unity.compileSdkVersion") as int
+    buildToolsVersion getProperty("unity.buildToolsVersion")
+
+    compileOptions {
+        sourceCompatibility JavaVersion.valueOf(getProperty("unity.javaCompatabilityVersion"))
+        targetCompatibility JavaVersion.valueOf(getProperty("unity.javaCompatabilityVersion"))
+    }
+
+    defaultConfig {
+        minSdk getProperty("unity.minSdkVersion") as int
+        consumerProguardFiles "consumer-rules.pro"
+    }
+}
+
+dependencies {
+    // Pinned; see MAINTAINING.md "Leaderboards" before changing it
+    implementation "com.google.android.gms:play-services-games-v2:22.1.0"
+}

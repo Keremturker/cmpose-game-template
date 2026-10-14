@@ -1,0 +1,7 @@
+{
+    "name": "Kturker.UnityBase.Core.Ads.Editor",
+    "rootNamespace": "Kturker.UnityBase.Core.Ads.Editor",
+    "references": ["Kturker.UnityBase.Core.Ads"],
+    "includePlatforms": ["Editor"],
+    "autoReferenced": false
+}

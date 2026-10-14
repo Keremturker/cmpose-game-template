@@ -1,0 +1,13 @@
+{
+  "showcase.best": "En iyi: {0}",
+  "showcase.score": "Skor: {0}",
+  "showcase.gameOver": "Oyun bitti",
+  "showcase.newBest": "Yeni rekor!",
+  "showcase.retry": "Tekrar",
+  "showcase.menu": "Menü",
+  "showcase.continue": "Devam et",
+  "showcase.continueAd": "Devam et (reklam)",
+  "showcase.adNotReady": "Şu an reklam yok, sonra tekrar dene",
+  "showcase.premium": "Premium",
+  "showcase.stats": "Koşu: {0}   Yıldız: {1}"
+}

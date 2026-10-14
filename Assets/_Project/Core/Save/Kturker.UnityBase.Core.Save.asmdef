@@ -1,0 +1,9 @@
+{
+    "name": "Kturker.UnityBase.Core.Save",
+    "rootNamespace": "Kturker.UnityBase.Core.Save",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "VContainer"
+    ],
+    "autoReferenced": true
+}

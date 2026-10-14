@@ -1,0 +1,6 @@
+{
+    "name": "Kturker.UnityBase.Features.Sample.Installer",
+    "rootNamespace": "Kturker.UnityBase.Features.Sample.Installer",
+    "references": ["Kturker.UnityBase.Features.Sample.Presentation", "Kturker.UnityBase.Features.Sample.Network", "Kturker.UnityBase.Features.Sample.Ads", "Kturker.UnityBase.Features.Sample.Leaderboards", "Kturker.UnityBase.Core.Presentation", "VContainer"],
+    "autoReferenced": true
+}

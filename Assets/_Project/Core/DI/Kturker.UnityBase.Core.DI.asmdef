@@ -1,0 +1,31 @@
+{
+    "name": "Kturker.UnityBase.Core.DI",
+    "rootNamespace": "Kturker.UnityBase.Core.DI",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Logging",
+        "Kturker.UnityBase.Core.Navigation",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Core.Preferences",
+        "Kturker.UnityBase.Core.Audio",
+        "Kturker.UnityBase.Core.Haptics",
+        "Kturker.UnityBase.Core.Lifecycle",
+        "Kturker.UnityBase.Core.DeepLink",
+        "Kturker.UnityBase.Core.About",
+        "Kturker.UnityBase.Core.Review",
+        "Kturker.UnityBase.Core.Update",
+        "Kturker.UnityBase.Core.Localization",
+        "Kturker.UnityBase.Core.Save",
+        "Kturker.UnityBase.Core.Theme",
+        "Kturker.UnityBase.Core.Language",
+        "Kturker.UnityBase.Core.Network",
+        "Kturker.UnityBase.Core.NetworkInspector",
+        "Kturker.UnityBase.Core.Purchases",
+        "Kturker.UnityBase.Features.Shell.Purchases",
+        "Kturker.UnityBase.Core.Ads",
+        "Kturker.UnityBase.Features.Shell.Ads",
+        "Kturker.UnityBase.Core.Leaderboards",
+        "VContainer"
+    ],
+    "autoReferenced": true
+}

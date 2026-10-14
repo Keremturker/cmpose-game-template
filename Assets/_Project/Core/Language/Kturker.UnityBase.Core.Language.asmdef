@@ -1,0 +1,12 @@
+{
+    "name": "Kturker.UnityBase.Core.Language",
+    "rootNamespace": "Kturker.UnityBase.Core.Language",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Localization",
+        "Kturker.UnityBase.Core.Preferences",
+        "Kturker.UnityBase.Core.Presentation",
+        "VContainer"
+    ],
+    "autoReferenced": true
+}

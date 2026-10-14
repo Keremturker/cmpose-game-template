@@ -1,0 +1,6 @@
+{
+    "name": "Kturker.UnityBase.Core.Logging",
+    "rootNamespace": "Kturker.UnityBase.Core.Logging",
+    "references": ["Kturker.UnityBase.Core.Domain"],
+    "autoReferenced": true
+}

@@ -1,0 +1,6 @@
+{
+    "name": "Kturker.UnityBase.Core.Haptics",
+    "rootNamespace": "Kturker.UnityBase.Core.Haptics",
+    "references": ["Kturker.UnityBase.Core.Domain", "Kturker.UnityBase.Core.Preferences"],
+    "autoReferenced": true
+}

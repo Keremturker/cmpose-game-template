@@ -1,0 +1,13 @@
+{
+  "showcase.best": "Récord: {0}",
+  "showcase.score": "Puntos: {0}",
+  "showcase.gameOver": "Fin de la partida",
+  "showcase.newBest": "¡Nuevo récord!",
+  "showcase.retry": "Reintentar",
+  "showcase.menu": "Menú",
+  "showcase.continue": "Continuar",
+  "showcase.continueAd": "Continuar (anuncio)",
+  "showcase.adNotReady": "No hay anuncio ahora, inténtalo más tarde",
+  "showcase.premium": "Premium",
+  "showcase.stats": "Partidas: {0}   Estrellas: {1}"
+}

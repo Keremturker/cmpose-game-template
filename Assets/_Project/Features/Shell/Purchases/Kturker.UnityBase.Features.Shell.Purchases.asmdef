@@ -1,0 +1,16 @@
+{
+    "name": "Kturker.UnityBase.Features.Shell.Purchases",
+    "rootNamespace": "Kturker.UnityBase.Features.Shell.Purchases",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.About",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Core.Localization",
+        "Kturker.UnityBase.Core.Purchases",
+        "UniTask",
+        "VContainer",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI"
+    ],
+    "autoReferenced": true
+}

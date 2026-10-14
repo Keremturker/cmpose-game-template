@@ -1,0 +1,14 @@
+{
+    "name": "Kturker.UnityBase.Core.NetworkInspector",
+    "rootNamespace": "Kturker.UnityBase.Core.NetworkInspector",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Network",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Core.Localization",
+        "VContainer",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI"
+    ],
+    "autoReferenced": true
+}

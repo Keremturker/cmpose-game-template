@@ -1,0 +1,14 @@
+{
+    "name": "Kturker.UnityBase.Features.Showcase.Common.Save",
+    "rootNamespace": "Kturker.UnityBase.Features.Showcase.Common.Save",
+    "references": [
+        "Kturker.UnityBase.Features.Showcase.Common",
+        "Kturker.UnityBase.Core.Save",
+        "Kturker.UnityBase.Core.Presentation",
+        "Kturker.UnityBase.Core.Localization",
+        "VContainer",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI"
+    ],
+    "autoReferenced": true
+}

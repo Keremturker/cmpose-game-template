@@ -1,0 +1,15 @@
+{
+    "name": "Kturker.UnityBase.Core.Presentation",
+    "rootNamespace": "Kturker.UnityBase.Core.Presentation",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Navigation",
+        "Kturker.UnityBase.Core.Audio",
+        "Kturker.UnityBase.Core.Haptics",
+        "Kturker.UnityBase.Core.Localization",
+        "VContainer",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI"
+    ],
+    "autoReferenced": true
+}

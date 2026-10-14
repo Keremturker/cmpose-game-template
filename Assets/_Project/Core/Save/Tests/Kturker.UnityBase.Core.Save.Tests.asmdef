@@ -1,0 +1,17 @@
+{
+    "name": "Kturker.UnityBase.Core.Save.Tests",
+    "rootNamespace": "Kturker.UnityBase.Core.Save.Tests",
+    "references": [
+        "Kturker.UnityBase.Core.Domain",
+        "Kturker.UnityBase.Core.Save",
+        "Kturker.UnityBase.Features.Sample.Presentation",
+        "Kturker.UnityBase.Tests.EditMode",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": ["Editor"],
+    "overrideReferences": true,
+    "precompiledReferences": ["nunit.framework.dll"],
+    "autoReferenced": false,
+    "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+}

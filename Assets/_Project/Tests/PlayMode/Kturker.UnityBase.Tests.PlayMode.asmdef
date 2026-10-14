@@ -1,0 +1,21 @@
+{
+    "name": "Kturker.UnityBase.Tests.PlayMode",
+    "rootNamespace": "Kturker.UnityBase.Tests.PlayMode",
+    "references": [
+        "Kturker.UnityBase.App",
+        "Kturker.UnityBase.Core.Audio",
+        "Kturker.UnityBase.Core.Localization",
+        "Kturker.UnityBase.Features.Sample.Presentation",
+        "Kturker.UnityBase.Features.Showcase.Common",
+        "Kturker.UnityBase.Features.Showcase.Runner2D",
+        "Kturker.UnityBase.Features.Showcase.Track3D",
+        "Kturker.UnityBase.Features.Showcase.Track3D.Domain",
+        "UniTask",
+        "UnityEngine.TestRunner",
+        "UnityEngine.UI"
+    ],
+    "overrideReferences": true,
+    "precompiledReferences": ["nunit.framework.dll"],
+    "autoReferenced": false,
+    "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+}
