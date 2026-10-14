@@ -12,6 +12,13 @@ namespace Kturker.UnityBase.Core.Presentation
 
         public ThemeRole Role => role;
 
+        // Changes the role at run time (a selected row, say) and recolours from the bound theme
+        public void SetRole(ThemeRole value)
+        {
+            role = value;
+            Apply();
+        }
+
         public void Bind(IThemeSource value)
         {
             if (source != value)

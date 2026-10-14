@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Kturker.UnityBase.Core.Localization;
+using Kturker.UnityBase.Core.Presentation;
 using Kturker.UnityBase.Core.Purchases;
 using UnityEngine;
 using UnityEngine.UI;
@@ -91,9 +92,14 @@ namespace Kturker.UnityBase.Features.Shell.Purchases
             Select(selected);
         }
 
+        // The chosen package's row takes the track colour and shows its side bar; the others go back to the background
         public void Select(int index)
         {
-            for (var i = 0; i < rowSelected.Length; i++) rowSelected[i].SetActive(i == index);
+            for (var i = 0; i < rowSelected.Length; i++)
+            {
+                rowSelected[i].SetActive(i == index);
+                rows[i].GetComponent<ThemedGraphic>().SetRole(i == index ? ThemeRole.Track : ThemeRole.Background);
+            }
         }
 
         public void ShowUnavailable() => ShowStatus(PurchasesKeys.Unavailable);

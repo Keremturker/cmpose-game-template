@@ -1,7 +1,7 @@
 # UnityBase
 
 A Unity 6 (6000.3.25f1) starter for Android and iOS games: URP, VContainer + UniTask, uGUI with TextMeshPro,
-Boot → Menu → Game scenes, settings (light/dark theme, five languages), pause, deep links, review requests, update checks, a save system and a sample feature module.
+Boot → Menu → Game scenes, settings, pause, deep links, review requests, update checks and a sample feature module.
 
 ## Open
 
@@ -11,21 +11,20 @@ Open the folder with Unity Hub using editor **6000.3.25f1** (Android Build Suppo
 
 - `Assets/_Project/Core/` — logging, scene loading, presenters, the root DI scope, and the core modules:
   Preferences, Audio, Haptics, Lifecycle (pause), DeepLink, About, Review, Update, Localization (string tables)
-- `Assets/_Project/Core/Save/`, `Core/Theme/`, `Core/Language/` — the save system, light/dark theme and language
-  modules (each with its own tests)
 - `Assets/_Project/App/` — the Boot, Menu and Game scenes' scopes and screens (Settings, About, pause, the
   "Start here" guide)
 - `Assets/_Project/Render/GameRig.prefab` — the Game scene's camera and lights
 - `Assets/_Project/Features/Sample/` — a feature module (Domain, Presentation, Installer); copy it to start a new one
+  (each module's panel fills the Game screen; with more than one module the screen scrolls between them)
 - `Assets/_Project/Tests/` — EditMode and PlayMode tests (Window → General → Test Runner)
 - `Assets/Plugins/Android/CmposePlay.androidlib/` — a small Android library that calls Google Play's in-app review
   and update APIs
 
 ## What is in the box
 
-- **Menu:** Play, Settings (music and sound effect volume, vibration, Theme: System / Light / Dark, Language,
-  Rate the app) and About (version, privacy and terms links, open-source licences). Settings are saved with
-  PlayerPrefs.
+- **Menu:** Play, Settings (music and sound effect volume, vibration and Rate the app, plus Theme and Language when
+  those parts are included) and About (version, privacy and terms links, open-source licences). Settings are saved
+  with PlayerPrefs.
 - **Game:** a pause button at the top right opens Resume / Settings / Menu; the game also pauses (without the
   panel) when the app goes to the background. The "Start here" panel shows until you press "Got it". The sample's
   Complete button is a positive moment for review requests. The sample also counts how many times Complete was
@@ -53,7 +52,8 @@ of these, English otherwise; Settings → Language changes it (saved as `lang.co
 Colours come from palettes (`Resources/Theme/Light.asset` and `Dark.asset`), one colour per role: background,
 surface, primary, on-primary, text, muted text, track and scrim. A `ThemedGraphic` gives an image or text its
 role, a `ThemedCamera` clears with the background. Settings → Theme switches between System (follows the device,
-re-read when the game comes back to the foreground), Light and Dark (saved as `theme.mode`).
+re-read when the game comes back to the foreground), Light and Dark (saved as `theme.mode`). The theme module and
+its tests are in `Core/Theme/`.
 <!-- /cmpose:uiTheme -->
 
 <!-- cmpose:saveSystem -->
@@ -68,7 +68,7 @@ store.Save(Schema, progress);
 `Progress` is a `[Serializable]` class (`JsonUtility`). Writes are atomic (a crash keeps the previous save) and the
 previous save stays as a backup. When the data's shape changes, raise the version and pass an `ISaveMigration`
 for each step (`From`, `To`, a function on the data JSON); a save from a newer version of the game is not loaded.
-Preferences (volume, theme, language) stay in `IPreferences`.
+Preferences (volume, theme, language) stay in `IPreferences`. The save system and its tests are in `Core/Save/`.
 <!-- /cmpose:saveSystem -->
 
 <!-- cmpose:network -->
