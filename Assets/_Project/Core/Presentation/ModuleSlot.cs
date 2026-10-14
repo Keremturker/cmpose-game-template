@@ -16,6 +16,19 @@ namespace Kturker.UnityBase.Core.Presentation
 
         public RectTransform Content => content;
 
+        // The loaded scene's slot Content, where installers spawn module panels; throws when no scene has a ModuleSlot
+        // (the Game scene carries it), instead of a bare NullReferenceException inside the container
+        public static RectTransform SceneContent()
+        {
+            var slot = FindAnyObjectByType<ModuleSlot>();
+            if (slot == null)
+            {
+                throw new System.InvalidOperationException(
+                    "No ModuleSlot in the loaded scenes: module panels spawn into the Game scene's ModuleSlot, so install modules from the Game scene");
+            }
+            return slot.Content;
+        }
+
         // The visible area: the viewport, or Content's parent when the viewport is not wired; null when neither is
         private RectTransform Visible => viewport != null ? viewport : content != null ? content.parent as RectTransform : null;
 

@@ -49,7 +49,10 @@ namespace Kturker.UnityBase.Tests.EditMode
         }
 
         [TearDown]
-        public void TearDown() => Object.DestroyImmediate(root);
+        public void TearDown()
+        {
+            if (root != null) Object.DestroyImmediate(root);
+        }
 
         private RectTransform AddPanel(string name)
         {
@@ -76,7 +79,29 @@ namespace Kturker.UnityBase.Tests.EditMode
             var binder = new UiBinder(new TableLocalizer(new FakeStringSource(), new FakeLog(), false),
                 new FixedThemeSource(Resources.Load<Palette>("Theme/Light")));
             var view = SampleView.Spawn(slot.Content, binder);
-            Assert.That(view.transform.parent, Is.EqualTo(slot.Content));
+            try
+            {
+                Assert.That(view.transform.parent, Is.EqualTo(slot.Content));
+            }
+            finally
+            {
+                // A panel that missed the slot is not under root, so TearDown would leave it in the scene
+                if (view != null) Object.DestroyImmediate(view.gameObject);
+            }
+        }
+
+        [Test]
+        public void Scene_content_is_the_slots_content()
+        {
+            Assert.That(ModuleSlot.SceneContent(), Is.EqualTo(slot.Content));
+        }
+
+        [Test]
+        public void Scene_content_without_a_slot_names_the_missing_module_slot()
+        {
+            Object.DestroyImmediate(root);
+            var error = Assert.Throws<System.InvalidOperationException>(() => ModuleSlot.SceneContent());
+            Assert.That(error.Message, Does.Contain("ModuleSlot").And.Contain("Game scene"));
         }
 
         [Test]

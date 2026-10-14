@@ -37,7 +37,8 @@ namespace Kturker.UnityBase.Core.Purchases.Tests
             Assert.That(PurchasesConfig.ApiKey(ios: false), Is.EqualTo(PurchasesConfig.ApiKeyGoogle));
             foreach (var ios in new[] { false, true })
                 Assert.That(PurchasesConfig.ApiKey(ios), Does.Match(@"^(test_|appl_|goog_)[A-Za-z0-9]+$"));
-            Assert.That(PurchasesConfig.PremiumEntitlement, Is.Not.Empty);
+            // A RevenueCat entitlement identifier: one word, no spaces (the template's is "premium")
+            Assert.That(PurchasesConfig.PremiumEntitlement, Does.Match(@"^[A-Za-z0-9_.\-]+$"));
         }
 
         [Test]

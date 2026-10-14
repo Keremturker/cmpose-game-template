@@ -1,6 +1,5 @@
 using Kturker.UnityBase.Core.Presentation;
 using Kturker.UnityBase.Features.Sample.Presentation;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 // cmpose:network
@@ -24,8 +23,9 @@ namespace Kturker.UnityBase.Features.Sample.Installer
 
         public void Install(IContainerBuilder builder)
         {
-            // The panel is a Resources prefab spawned into the Game scene's ModuleSlot, so the scene names no module
-            if (registerViews) builder.Register(r => SampleView.Spawn(Object.FindAnyObjectByType<ModuleSlot>().Content, r.Resolve<UiBinder>()), Lifetime.Scoped).AsSelf().As<ISampleView>();
+            // The panel is a Resources prefab spawned into the Game scene's ModuleSlot, so the scene names no module;
+            // SceneContent fails with a clear message outside the Game scene
+            if (registerViews) builder.Register(r => SampleView.Spawn(ModuleSlot.SceneContent(), r.Resolve<UiBinder>()), Lifetime.Scoped).AsSelf().As<ISampleView>();
             builder.Register<ICompletionCounter, NoCompletionCounter>(Lifetime.Singleton);
             // cmpose:saveSystem
             builder.Register<ICompletionCounter, SavedCompletionCounter>(Lifetime.Singleton);
