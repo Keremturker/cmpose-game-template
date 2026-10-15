@@ -17,6 +17,8 @@ namespace Kturker.UnityBase.Core.Presentation
         [SerializeField] private Color track = Color.gray;
         [SerializeField] private Color scrim = new Color(0f, 0f, 0f, 0.6f);
         [SerializeField] private Color picture = Color.white;
+        [SerializeField] private Color surfaceVariant = Color.gray;
+        [SerializeField] private Color control = Color.gray;
 
         public Color Get(ThemeRole role)
         {
@@ -31,6 +33,8 @@ namespace Kturker.UnityBase.Core.Presentation
                 case ThemeRole.Track: return track;
                 case ThemeRole.Scrim: return scrim;
                 case ThemeRole.Picture: return picture;
+                case ThemeRole.SurfaceVariant: return surfaceVariant;
+                case ThemeRole.Control: return control;
                 default: throw new ArgumentOutOfRangeException(nameof(role), role, null);
             }
         }
@@ -48,6 +52,8 @@ namespace Kturker.UnityBase.Core.Presentation
                 case ThemeRole.Track: track = color; break;
                 case ThemeRole.Scrim: scrim = color; break;
                 case ThemeRole.Picture: picture = color; break;
+                case ThemeRole.SurfaceVariant: surfaceVariant = color; break;
+                case ThemeRole.Control: control = color; break;
                 default: throw new ArgumentOutOfRangeException(nameof(role), role, null);
             }
         }

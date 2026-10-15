@@ -18,6 +18,8 @@ MonoBehaviour:
   onPrimary: {r: 1, g: 1, b: 1, a: 1}
   text: {r: 0.1, g: 0.11, b: 0.14, a: 1}
   textMuted: {r: 0.42, g: 0.44, b: 0.5, a: 1}
-  track: {r: 0.82, g: 0.83, b: 0.87, a: 1}
+  track: {r: 0.88, g: 0.89, b: 0.92, a: 1}
   scrim: {r: 0, g: 0, b: 0, a: 0.6}
   picture: {r: 1, g: 1, b: 1, a: 1}
+  surfaceVariant: {r: 0.83, g: 0.84, b: 0.88, a: 1}
+  control: {r: 0.83, g: 0.84, b: 0.88, a: 1}

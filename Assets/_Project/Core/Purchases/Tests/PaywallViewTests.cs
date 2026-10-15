@@ -21,12 +21,12 @@ namespace Kturker.UnityBase.Core.Purchases.Tests
         private ThemeRole RoleOf(int i) => Row(i).GetComponent<ThemedGraphic>().Role;
 
         [Test]
-        public void The_selected_row_takes_the_track_colour_and_the_others_the_background()
+        public void The_selected_row_takes_the_surface_variant_and_the_others_the_track_colour()
         {
             view.Select(1);
             for (var i = 0; i < PaywallView.Rows; i++)
             {
-                Assert.That(RoleOf(i), Is.EqualTo(i == 1 ? ThemeRole.Track : ThemeRole.Background), $"row {i}");
+                Assert.That(RoleOf(i), Is.EqualTo(i == 1 ? ThemeRole.SurfaceVariant : ThemeRole.Track), $"row {i}");
                 Assert.That(Row(i).Find("Selected").gameObject.activeSelf, Is.EqualTo(i == 1), $"row {i} bar");
             }
         }
@@ -36,8 +36,8 @@ namespace Kturker.UnityBase.Core.Purchases.Tests
         {
             view.Select(1);
             view.Select(2);
-            Assert.That(RoleOf(1), Is.EqualTo(ThemeRole.Background));
-            Assert.That(RoleOf(2), Is.EqualTo(ThemeRole.Track));
+            Assert.That(RoleOf(1), Is.EqualTo(ThemeRole.Track));
+            Assert.That(RoleOf(2), Is.EqualTo(ThemeRole.SurfaceVariant));
             Assert.That(Row(1).Find("Selected").gameObject.activeSelf, Is.False);
         }
 

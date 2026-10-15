@@ -49,6 +49,14 @@ namespace Kturker.UnityBase.Core.Theme.Tests
         }
 
         [Test]
+        public void The_dark_palette_sets_boxes_apart_and_primary_on_track()
+        {
+            var palette = UnityEditor.AssetDatabase.LoadAssetAtPath<Palette>("Assets/_Project/Core/Theme/Resources/Theme/Dark.asset");
+            Assert.That(palette, Is.Not.Null);
+            Contrast.AssertBoxes(palette, "dark", accentOnRow: 2.3f, controlOnSurface: 3f);
+        }
+
+        [Test]
         public void Light_dark_and_system_resolve_against_the_device()
         {
             Assert.That(ThemeModes.IsDark(ThemeMode.Light, true), Is.False);

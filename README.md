@@ -15,7 +15,11 @@ Open the folder with Unity Hub using editor **6000.3.25f1** (Android Build Suppo
   "Start here" guide)
 - `Assets/_Project/Render/GameRig.prefab` — the Game scene's camera and lights
 - `Assets/_Project/Features/Sample/` — a feature module (Domain, Presentation, Installer); copy it to start a new one
-  (each module's panel fills the Game screen; with more than one module the screen scrolls between them)
+  (each module's panel fills the Game screen; with more than one module the screen scrolls between them). The Game
+  scene has a full-screen `RaycastSurface` (on `Modules/Viewport`) behind the module panels, so taps on empty space
+  never reach the world; for world touches (a `PhysicsRaycaster` on the camera) turn off that surface's
+  `raycastTarget` (empty space then no longer drags the module scroll), or read world touches from the Input System
+  directly instead of through the UI's EventSystem
 - `Assets/_Project/Tests/` — EditMode and PlayMode tests (Window → General → Test Runner)
 - `Assets/Plugins/Android/CmposePlay.androidlib/` — a small Android library that calls Google Play's in-app review
   and update APIs

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Kturker.UnityBase.Core.Localization;
 using Kturker.UnityBase.Core.Presentation;
 using NUnit.Framework;
@@ -74,21 +76,6 @@ namespace Kturker.UnityBase.Tests.EditMode
             // /cmpose:track3D
         };
 
-        // Screens whose content must keep clear of the screen's sides (a 20:9 phone shows about 57 fewer units each
-        // side), with the least margin on the 1080 reference: Settings keeps its 90-unit column
-        private static readonly (string Path, float Margin)[] EdgePrefabs =
-        {
-            ("Assets/_Project/App/Settings/SettingsPanel.prefab", 85f),
-            // cmpose:networkInspector
-            ("Assets/_Project/Core/NetworkInspector/Resources/NetworkInspector/InspectorOverlay.prefab", 48f),
-            // /cmpose:networkInspector
-            // cmpose:purchases
-            ("Assets/_Project/Features/Shell/Purchases/Resources/ShellPurchases/Paywall.prefab", 48f),
-            // /cmpose:purchases
-        };
-
-        private const float ReferenceWidth = 1080f;
-
         private static void ForEachRoot(Action<string, GameObject> check)
         {
             foreach (var path in Prefabs)
@@ -136,58 +123,485 @@ namespace Kturker.UnityBase.Tests.EditMode
             Assert.That(problems, Is.Empty);
         }
 
-        // Horizontal rects on the 1080x1920 reference canvas, from anchors and offsets; a vertical layout group's
-        // child is placed the way the group places it (hidden children too, so rows the presenter shows count). A rect
-        // as wide as the screen is a full-screen layer (canvas, panel, safe area); everything else keeps the screen's
-        // margin from both sides.
-        private static void CheckSides(Transform t, float parentMin, float parentMax, float margin, string where, List<string> problems)
+        private const string SettingsPrefab = "Assets/_Project/App/Settings/SettingsPanel.prefab";
+        // cmpose:networkInspector
+        private const string InspectorPrefab = "Assets/_Project/Core/NetworkInspector/Resources/NetworkInspector/InspectorOverlay.prefab";
+        // /cmpose:networkInspector
+        // cmpose:purchases
+        private const string PaywallPrefab = "Assets/_Project/Features/Shell/Purchases/Resources/ShellPurchases/Paywall.prefab";
+        // /cmpose:purchases
+
+        // The 1080x1920 reference and a 20:9 phone (1080x2400): the canvas scaler shows the taller one about 57 fewer
+        // units on each side, so a box placed for the reference can end up near the screen's edge
+        private static readonly Vector2Int[] Phones = { new Vector2Int(1080, 1920), new Vector2Int(1080, 2400) };
+
+        // Content keeps at least this many screen pixels from the screen's sides
+        private const float SideMargin = 48f;
+
+        private static GameObject Load(string path)
         {
-            var group = t.GetComponent<VerticalLayoutGroup>();
-            foreach (Transform child in t)
+            var asset = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            Assert.That(asset, Is.Not.Null, path);
+            return asset;
+        }
+
+        // A phone screen without a canvas: screen roots are laid out on a stage the size the canvas scaler gives them,
+        // every child shown (rows the presenter shows count), so rects read in canvas units and convert to pixels
+        private sealed class Stage : IDisposable
+        {
+            private readonly GameObject root;
+
+            public Stage(Vector2Int phone)
             {
-                if (!(child is RectTransform rect)) continue;
-                var width = parentMax - parentMin;
-                float min, max;
-                if (group != null)
+                Phone = phone;
+                var scaler = Load(SettingsPrefab).GetComponent<CanvasScaler>();
+                var reference = scaler.referenceResolution;
+                var log = Mathf.Lerp(Mathf.Log(phone.x / reference.x, 2f), Mathf.Log(phone.y / reference.y, 2f), scaler.matchWidthOrHeight);
+                Scale = Mathf.Pow(2f, log);
+                Size = new Vector2(phone.x / Scale, phone.y / Scale);
+                root = new GameObject("Stage", typeof(RectTransform));
+                ((RectTransform)root.transform).sizeDelta = Size;
+            }
+
+            public Vector2Int Phone { get; }
+            public float Scale { get; }
+            public Vector2 Size { get; }
+
+            // A copy of a screen root (prefab or scene object), filling the stage or put into a slot the way the
+            // runtime puts it there (Instantiate(prefab, slot, false)); its own canvas goes, the stage is the canvas
+            public GameObject Add(GameObject source, Transform slot = null)
+            {
+                var copy = UnityEngine.Object.Instantiate(source, slot != null ? slot : root.transform, false);
+                foreach (var c in copy.GetComponents<CanvasScaler>()) UnityEngine.Object.DestroyImmediate(c);
+                foreach (var c in copy.GetComponents<GraphicRaycaster>()) UnityEngine.Object.DestroyImmediate(c);
+                foreach (var c in copy.GetComponents<Canvas>()) UnityEngine.Object.DestroyImmediate(c);
+                if (slot == null)
                 {
-                    var innerMin = parentMin + group.padding.left;
-                    var innerMax = parentMax - group.padding.right;
-                    if (group.childControlWidth && group.childForceExpandWidth)
+                    var rect = (RectTransform)copy.transform;
+                    rect.anchorMin = Vector2.zero;
+                    rect.anchorMax = Vector2.one;
+                    rect.offsetMin = Vector2.zero;
+                    rect.offsetMax = Vector2.zero;
+                }
+                foreach (var t in copy.GetComponentsInChildren<Transform>(true)) t.gameObject.SetActive(true);
+                Layout();
+                return copy;
+            }
+
+            // A scene's object (path from its root) copied onto the stage; the scene is closed again
+            public GameObject AddFromScene(string scenePath, string objectPath)
+            {
+                var scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
+                try
+                {
+                    var names = objectPath.Split('/');
+                    foreach (var top in scene.GetRootGameObjects())
                     {
-                        min = innerMin;
-                        max = innerMax;
+                        if (top.name != names[0]) continue;
+                        var found = names.Length == 1 ? top.transform : top.transform.Find(string.Join("/", names, 1, names.Length - 1));
+                        if (found != null) return Add(found.gameObject);
                     }
-                    else
+                    Assert.Fail($"{scenePath}: no {objectPath}");
+                    return null;
+                }
+                finally
+                {
+                    EditorSceneManager.CloseScene(scene, true);
+                }
+            }
+
+            // Layout groups lay out their own children only, so each one is rebuilt, outermost first
+            private void Layout()
+            {
+                for (var pass = 0; pass < 2; pass++)
+                {
+                    foreach (var group in root.GetComponentsInChildren<LayoutGroup>(true))
+                        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)group.transform);
+                }
+            }
+
+            // A rect in stage units, (0, 0) at the screen's bottom left
+            public Rect RectOf(RectTransform rect)
+            {
+                var corners = new Vector3[4];
+                rect.GetWorldCorners(corners);
+                var min = root.transform.InverseTransformPoint(corners[0]);
+                var max = root.transform.InverseTransformPoint(corners[2]);
+                return Rect.MinMaxRect(min.x + Size.x / 2f, min.y + Size.y / 2f, max.x + Size.x / 2f, max.y + Size.y / 2f);
+            }
+
+            public void Dispose() => UnityEngine.Object.DestroyImmediate(root);
+        }
+
+        // The screens with their side margin in screen pixels
+        private static List<(string Where, GameObject Root, float Margin)> Screens(Stage stage)
+        {
+            const string menu = "Assets/_Project/Scenes/Menu.unity";
+            var screens = new List<(string, GameObject, float)>
+            {
+                ("Settings", stage.Add(Load(SettingsPrefab)), SideMargin),
+                ("Boot", stage.AddFromScene("Assets/_Project/Scenes/Boot.unity", "Canvas/SafeArea"), SideMargin),
+                ("Menu", StageMenu(stage), SideMargin),
+                ("Menu/About", stage.AddFromScene(menu, "Canvas/About"), SideMargin),
+                ("Menu/Update", stage.AddFromScene(menu, "UpdatePanel"), SideMargin)
+            };
+            // cmpose:networkInspector
+            screens.Add(("Inspector", stage.Add(Load(InspectorPrefab)), SideMargin));
+            // /cmpose:networkInspector
+            // cmpose:purchases
+            screens.Add(("Paywall", stage.Add(Load(PaywallPrefab)), SideMargin));
+            // /cmpose:purchases
+            // cmpose:sample
+            screens.Add(("Game/Sample", StageSample(stage), SideMargin));
+            screens.Add(("Game/Guide", stage.AddFromScene("Assets/_Project/Scenes/Game.unity", "Canvas/Guide"), SideMargin));
+            screens.Add(("Game/Pause", stage.AddFromScene("Assets/_Project/Scenes/Game.unity", "Canvas/Pause"), SideMargin));
+            // /cmpose:sample
+            // cmpose:runner2D
+            screens.Add(("Runner2D/Hud", stage.AddFromScene("Assets/_Project/Features/Showcase/Runner2D/Scenes/Runner2D.unity", "Canvas/SafeArea/Hud"), SideMargin));
+            screens.Add(("Runner2D/Pause", stage.AddFromScene("Assets/_Project/Features/Showcase/Runner2D/Scenes/Runner2D.unity", "Canvas/Pause"), SideMargin));
+            screens.Add(("Runner2D/GameOver", StageGameOver(stage), SideMargin));
+            // /cmpose:runner2D
+            return screens;
+        }
+
+        // The menu with the rows the showcase's flags put into its extra slot (a column) at runtime
+        private static GameObject StageMenu(Stage stage)
+        {
+            var menu = stage.AddFromScene("Assets/_Project/Scenes/Menu.unity", "Canvas/SafeArea/Menu");
+            var extras = menu.transform.Find("Extras");
+            // cmpose:showcase
+            stage.Add(Load("Assets/_Project/Features/Showcase/Common/Resources/ShowcaseCommon/MenuBest.prefab"), extras);
+            // cmpose:purchases
+            stage.Add(Load("Assets/_Project/Features/Showcase/Common/Purchases/Resources/ShowcasePurchases/Premium.prefab"), extras);
+            // /cmpose:purchases
+            // cmpose:saveSystem
+            stage.Add(Load("Assets/_Project/Features/Showcase/Common/Save/Resources/ShowcaseSave/Stats.prefab"), extras);
+            // /cmpose:saveSystem
+            // cmpose:leaderboards
+            stage.Add(Load("Assets/_Project/Features/Showcase/Common/Leaderboards/Resources/ShowcaseLeaderboards/Scores.prefab"), extras);
+            // /cmpose:leaderboards
+            // /cmpose:showcase
+            return menu;
+        }
+
+        // cmpose:runner2D
+        // The showcase's game-over panel (the same in both games) with the Continue row the ads flag puts in its slot
+        private static GameObject StageGameOver(Stage stage)
+        {
+            var gameOver = stage.AddFromScene("Assets/_Project/Features/Showcase/Runner2D/Scenes/Runner2D.unity", "Canvas/GameOver");
+            // cmpose:ads
+            stage.Add(Load("Assets/_Project/Features/Showcase/Common/Ads/Resources/ShowcaseAds/Continue.prefab"), gameOver.transform.Find("Panel/SafeArea/Actions"));
+            // /cmpose:ads
+            return gameOver;
+        }
+        // /cmpose:runner2D
+
+        // cmpose:sample
+        // The Game scene's sample panel (ModuleSlot makes it screen-sized) with what the flags put into its slots at
+        // runtime: the GitHub card (Extras), Leaderboard and Achievements (Scores), the Bonus button (Actions)
+        private static GameObject StageSample(Stage stage)
+        {
+            var sample = stage.Add(Load("Assets/_Project/Features/Sample/Resources/Sample/SampleView.prefab"));
+            // cmpose:network
+            stage.Add(Load("Assets/_Project/Features/Sample/Network/Resources/SampleNetwork/GitHubUserCard.prefab"), sample.transform.Find("Extras"));
+            // /cmpose:network
+            // cmpose:leaderboards
+            stage.Add(Load("Assets/_Project/Features/Sample/Leaderboards/Resources/SampleLeaderboards/Scores.prefab"), sample.transform.Find("Scores"));
+            // /cmpose:leaderboards
+            // cmpose:ads
+            stage.Add(Load("Assets/_Project/Features/Sample/Ads/Resources/SampleAds/Bonus.prefab"), sample.transform.Find("Actions"));
+            // /cmpose:ads
+            return sample;
+        }
+        // /cmpose:sample
+
+        [Test]
+        public void Screens_keep_clear_of_the_sides_on_the_reference_and_a_20_by_9_phone()
+        {
+            var problems = new List<string>();
+            foreach (var phone in Phones)
+            {
+                using (var stage = new Stage(phone))
+                {
+                    foreach (var (where, screen, margin) in Screens(stage))
                     {
-                        var size = rect.sizeDelta.x + (rect.anchorMax.x - rect.anchorMin.x) * width;
-                        var column = (int)group.childAlignment % 3;
-                        min = column == 0 ? innerMin : column == 2 ? innerMax - size : (innerMin + innerMax - size) / 2f;
-                        max = min + size;
+                        foreach (var rect in screen.GetComponentsInChildren<RectTransform>(true))
+                        {
+                            var r = stage.RectOf(rect);
+                            // A rect as wide as the screen is a full-screen layer (panel, safe area, module scroll)
+                            if (r.xMin <= 0.5f && r.xMax >= stage.Size.x - 0.5f) continue;
+                            var left = r.xMin * stage.Scale;
+                            var right = (stage.Size.x - r.xMax) * stage.Scale;
+                            if (left < margin - 0.5f || right < margin - 0.5f)
+                                problems.Add($"{phone.x}x{phone.y} {where}: {PathOf(rect)} is {left:0} px / {right:0} px from the sides");
+                        }
                     }
                 }
-                else
+            }
+            Assert.That(problems, Is.Empty);
+        }
+
+        // cmpose:networkInspector
+        // The debug NET button sits in the top right corner and covers no other screen's button or text box (the
+        // paywall's buttons and title, the Game scene's bottom controls and pause button, the menu's and About's titles)
+        [Test]
+        public void The_net_button_sits_top_right_clear_of_every_other_button_and_text()
+        {
+            var problems = new List<string>();
+            foreach (var phone in Phones)
+            {
+                using (var stage = new Stage(phone))
                 {
-                    min = parentMin + rect.anchorMin.x * width + rect.offsetMin.x;
-                    max = parentMin + rect.anchorMax.x * width + rect.offsetMax.x;
+                    var screens = Screens(stage);
+                    var inspector = screens.Find(s => s.Where == "Inspector").Root;
+                    var net = stage.RectOf((RectTransform)inspector.transform.Find("SafeArea/Open"));
+                    Assert.That(net.center.x, Is.GreaterThan(stage.Size.x / 2f), $"{phone}: NET is not on the right");
+                    Assert.That(net.center.y, Is.GreaterThan(stage.Size.y * 0.85f), $"{phone}: NET is not at the top");
+                    // Clear of the screen's top edge on a phone without a cutout (no safe-area inset)
+                    Assert.That((stage.Size.y - net.yMax) * stage.Scale, Is.GreaterThanOrEqualTo(24f - 0.5f), $"{phone}: NET top gap");
+                    foreach (var (where, screen, _) in screens)
+                    {
+                        if (screen == inspector) continue;
+                        foreach (var button in screen.GetComponentsInChildren<Button>(true))
+                        {
+                            if (stage.RectOf((RectTransform)button.transform).Overlaps(net))
+                                problems.Add($"{phone.x}x{phone.y} {where}: NET covers {PathOf(button.transform)}");
+                        }
+                        foreach (var text in screen.GetComponentsInChildren<TMP_Text>(true))
+                        {
+                            if (stage.RectOf(text.rectTransform).Overlaps(net))
+                                problems.Add($"{phone.x}x{phone.y} {where}: NET covers text {PathOf(text.transform)}");
+                        }
+                    }
                 }
-                var fullScreen = min <= 0.01f && max >= ReferenceWidth - 0.01f;
-                if (!fullScreen && (min < margin - 0.01f || max > ReferenceWidth - margin + 0.01f))
+            }
+            Assert.That(problems, Is.Empty);
+        }
+        // /cmpose:networkInspector
+
+        // cmpose:purchases
+        // Package rows start on Track, which stands out from the paywall's Surface panel in both palettes;
+        // PaywallView.Select gives the chosen one SurfaceVariant (ThemeTests' contrast checks)
+        [Test]
+        public void Paywall_rows_start_on_the_track_role()
+        {
+            var paywall = Load(PaywallPrefab);
+            for (var i = 0; ; i++)
+            {
+                var row = paywall.transform.Find($"Panel/SafeArea/Row{i}");
+                if (row == null)
                 {
-                    problems.Add($"{where}: {PathOf(child)} spans {min:0.#}..{max:0.#}");
+                    Assert.That(i, Is.GreaterThan(0), "no paywall rows");
+                    break;
                 }
-                CheckSides(child, min, max, margin, where, problems);
+                Assert.That(row.GetComponent<ThemedGraphic>().Role, Is.EqualTo(ThemeRole.Track), row.name);
+            }
+        }
+        // /cmpose:purchases
+
+        // Slider rails and the checkbox box take the Control role (Primary fill and mark read on it in both palettes)
+        [Test]
+        public void Settings_controls_use_the_control_role()
+        {
+            var column = Load(SettingsPrefab).transform.Find("Panel/SafeArea/Column");
+            foreach (var path in new[] { "Music/Background", "Sfx/Background", "Vibration/Box" })
+                Assert.That(column.Find(path).GetComponent<ThemedGraphic>().Role, Is.EqualTo(ThemeRole.Control), path);
+        }
+
+        // The vibration row reads like the other settings rows: its label left-aligned where their titles start, its
+        // box in the share where their value buttons sit
+        [Test]
+        public void The_vibration_row_lines_up_with_the_other_settings_rows()
+        {
+            foreach (var phone in Phones)
+            {
+                using (var stage = new Stage(phone))
+                {
+                    var column = stage.Add(Load(SettingsPrefab)).transform.Find("Panel/SafeArea/Column");
+                    var label = column.Find("Vibration/Label").GetComponent<TMP_Text>();
+                    var title = column.Find("Section0/Title").GetComponent<TMP_Text>();
+                    var labelRect = stage.RectOf(label.rectTransform);
+                    var titleRect = stage.RectOf(title.rectTransform);
+                    Assert.That(label.alignment, Is.EqualTo(title.alignment), $"{phone}: alignment");
+                    Assert.That(labelRect.xMin, Is.EqualTo(titleRect.xMin).Within(1f), $"{phone}: label start");
+                    var box = stage.RectOf((RectTransform)column.Find("Vibration/Box"));
+                    var value = stage.RectOf((RectTransform)column.Find("Section0/Value"));
+                    Assert.That(box.center.x, Is.EqualTo(value.center.x).Within(1f), $"{phone}: box in the value share");
+                }
             }
         }
 
+        // cmpose:network
+        // cmpose:sample
+        // The GitHub card stands out from the Game screen's background in both palettes (ThemeTests' contrast checks)
         [Test]
-        public void Settings_inspector_and_paywall_keep_clear_of_the_screen_sides()
+        public void The_github_card_uses_the_surface_variant_role()
         {
-            var problems = new List<string>();
-            foreach (var (path, margin) in EdgePrefabs)
+            var card = Load("Assets/_Project/Features/Sample/Network/Resources/SampleNetwork/GitHubUserCard.prefab");
+            Assert.That(card.GetComponent<ThemedGraphic>().Role, Is.EqualTo(ThemeRole.SurfaceVariant));
+        }
+        // /cmpose:sample
+        // /cmpose:network
+
+        // Labels code writes at runtime, by button name: the keys (measured in every language) and the literal texts
+        // the settings rows' value buttons, the menu's game buttons and the game-over Continue button can show
+        private static (Dictionary<string, List<string>> Keys, Dictionary<string, List<string>> Texts) RuntimeLabels()
+        {
+            var keys = new Dictionary<string, List<string>>
             {
-                var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-                Assert.That(prefab, Is.Not.Null, path);
-                CheckSides(prefab.transform, 0f, ReferenceWidth, margin, path, problems);
+                ["Value"] = new List<string>(),
+                ["Play"] = new List<string> { "menu.play" },
+                ["ContinueButton"] = new List<string>()
+            };
+            var texts = new Dictionary<string, List<string>>();
+            // cmpose:uiTheme
+            keys["Value"].AddRange(new[] { "theme.system", "theme.light", "theme.dark" });
+            // /cmpose:uiTheme
+            // cmpose:multiLang
+            texts["Value"] = Kturker.UnityBase.Core.Language.LanguageSelector.Supported.Select(l => l.Name).ToList();
+            // /cmpose:multiLang
+            // cmpose:purchases
+            keys["Value"].AddRange(new[] { "purchases.state.get", "purchases.state.active", "purchases.state.unavailable" });
+            // /cmpose:purchases
+            // cmpose:leaderboards
+            keys["Value"].AddRange(new[] { "leaderboards.signIn", "leaderboards.signedIn", "leaderboards.notSetUp" });
+            // /cmpose:leaderboards
+            // cmpose:ads
+            keys["Value"].Add("ads.privacy.manage");
+            // /cmpose:ads
+            // cmpose:runner2D
+            keys["Play"].Add("runner2d.play");
+            // /cmpose:runner2D
+            // cmpose:track3D
+            keys["Play"].Add("track3d.play");
+            // /cmpose:track3D
+            // cmpose:showcase
+            // cmpose:ads
+            keys["ContinueButton"].Add("showcase.continue");
+            // /cmpose:ads
+            // /cmpose:showcase
+            return (keys, texts);
+        }
+
+        // Every language table's text of every button label key fits its button at the label's smallest auto-size
+        // (MakeButton: 30) without the ellipsis: whole words on as many lines as the label's height holds, on the
+        // narrower phone too (buttons that stretch with the screen are narrower there)
+        [Test]
+        public void Button_labels_fit_in_every_language_at_the_smallest_size()
+        {
+            var languages = AssetDatabase.FindAssets("t:TextAsset", new[] { "Assets" })
+                .Select(AssetDatabase.GUIDToAssetPath)
+                .Select(p => Regex.Match(p, "/Resources/Strings/([^/]+)/"))
+                .Where(m => m.Success)
+                .Select(m => m.Groups[1].Value)
+                .Distinct()
+                .OrderBy(l => l, StringComparer.Ordinal)
+                .ToList();
+            Assert.That(languages, Does.Contain("en"));
+            var tables = languages.ToDictionary(l => l, l =>
+            {
+                var table = new TableLocalizer(new ResourcesStringSource(), new FakeLog(), false);
+                table.SetLanguage(l);
+                return table;
+            });
+            var (runtimeKeys, runtimeTexts) = RuntimeLabels();
+            foreach (var key in runtimeKeys.Values.SelectMany(k => k))
+                Assert.That(tables["en"].Get(key), Is.Not.EqualTo(key), $"runtime label key '{key}' is not in Strings/en");
+            var problems = new HashSet<string>();
+            foreach (var phone in Phones)
+            {
+                using (var stage = new Stage(phone))
+                {
+                    var roots = Screens(stage).Select(s => (s.Where, s.Root)).ToList();
+                    foreach (var path in Prefabs)
+                    {
+                        var prefab = Load(path);
+                        if (prefab.transform is RectTransform) roots.Add((path, stage.Add(prefab)));
+                    }
+                    foreach (var path in Scenes)
+                    {
+                        var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
+                        try
+                        {
+                            foreach (var top in scene.GetRootGameObjects())
+                                if (top.transform is RectTransform) roots.Add((path, stage.Add(top)));
+                        }
+                        finally
+                        {
+                            EditorSceneManager.CloseScene(scene, true);
+                        }
+                    }
+                    var probe = new GameObject("Probe", typeof(RectTransform)).AddComponent<TextMeshProUGUI>();
+                    // Measured with an in-memory dynamic copy of each label font's source file (the same glyph metrics,
+                    // every language's letters), so the run never adds glyphs to the project's font assets
+                    var fonts = new Dictionary<TMP_FontAsset, TMP_FontAsset>();
+                    try
+                    {
+                        foreach (var (where, root) in roots)
+                        {
+                            foreach (var button in root.GetComponentsInChildren<Button>(true))
+                            {
+                                var labelTransform = button.transform.Find("Label");
+                                if (labelTransform == null) continue;
+                                var label = labelTransform.GetComponent<TMP_Text>();
+                                var localized = labelTransform.GetComponent<LocalizedText>();
+                                if (label == null || localized == null) continue;
+                                var keys = new List<string>();
+                                if (!string.IsNullOrEmpty(localized.Key)) keys.Add(localized.Key);
+                                if (runtimeKeys.TryGetValue(button.name, out var more)) keys.AddRange(more);
+                                runtimeTexts.TryGetValue(button.name, out var literals);
+                                if (keys.Count == 0 && literals == null) continue;
+                                var box = ((RectTransform)label.transform).rect;
+                                var width = box.width - label.margin.x - label.margin.z;
+                                var height = box.height - label.margin.y - label.margin.w;
+                                if (!fonts.TryGetValue(label.font, out var font))
+                                {
+                                    var file = AssetDatabase.LoadAssetAtPath<Font>(AssetDatabase.GUIDToAssetPath(label.font.creationSettings.sourceFontFileGUID));
+                                    Assert.That(file, Is.Not.Null, $"{label.font.name}: no source font file");
+                                    font = TMP_FontAsset.CreateFontAsset(file);
+                                    fonts.Add(label.font, font);
+                                }
+                                probe.font = font;
+                                probe.fontStyle = label.fontStyle;
+                                probe.enableAutoSizing = false;
+                                probe.fontSize = label.fontSizeMin;
+                                probe.margin = Vector4.zero;
+                                probe.textWrappingMode = TextWrappingModes.Normal;
+                                // The probe measures (a 20-letter word at 30 is far wider than 100 units)
+                                Assert.That(probe.GetPreferredValues("WWWWWWWWWWWWWWWWWWWW").x, Is.GreaterThan(100f), "probe");
+                                void Measure(string text, string what)
+                                {
+                                    var size = probe.GetPreferredValues(text, width, 10000f);
+                                    var widest = text.Split(' ').Max(w => probe.GetPreferredValues(w).x);
+                                    if (size.y > height + 0.5f || widest > width + 0.5f)
+                                        problems.Add($"{phone.x}x{phone.y} {where}: {PathOf(button.transform)} {what} \"{text}\" needs {Mathf.Max(widest, size.x):0}x{size.y:0}, has {width:0}x{height:0}");
+                                }
+                                foreach (var key in keys)
+                                {
+                                    foreach (var language in languages)
+                                    {
+                                        var text = tables[language].Get(key);
+                                        if (text != key) Measure(text, $"'{key}' [{language}]");
+                                    }
+                                }
+                                if (literals != null)
+                                {
+                                    foreach (var text in literals) Measure(text, "literal");
+                                }
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        UnityEngine.Object.DestroyImmediate(probe.gameObject);
+                        foreach (var font in fonts.Values)
+                        {
+                            foreach (var atlas in font.atlasTextures) UnityEngine.Object.DestroyImmediate(atlas);
+                            UnityEngine.Object.DestroyImmediate(font.material);
+                            UnityEngine.Object.DestroyImmediate(font);
+                        }
+                    }
+                }
             }
             Assert.That(problems, Is.Empty);
         }

@@ -92,13 +92,13 @@ namespace Kturker.UnityBase.Features.Shell.Purchases
             Select(selected);
         }
 
-        // The chosen package's row takes the track colour and shows its side bar; the others go back to the background
+        // The chosen package's row takes the surface variant and shows its side bar; the others go back to the track colour
         public void Select(int index)
         {
             for (var i = 0; i < rowSelected.Length; i++)
             {
                 rowSelected[i].SetActive(i == index);
-                rows[i].GetComponent<ThemedGraphic>().SetRole(i == index ? ThemeRole.Track : ThemeRole.Background);
+                rows[i].GetComponent<ThemedGraphic>().SetRole(i == index ? ThemeRole.SurfaceVariant : ThemeRole.Track);
             }
         }
 
