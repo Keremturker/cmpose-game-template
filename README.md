@@ -260,11 +260,6 @@ Android: minimum API 25, IL2CPP, ARM64; add `-cmposeAab` for a Play Store bundle
 generated Xcode project in `Builds/ios`. `Assets/Plugins/iOS/PrivacyInfo.xcprivacy` is added to the app as its
 privacy manifest.
 
-<!-- cmpose:ci -->
-**CI:** `.github/workflows/ci.yml` runs the EditMode tests and an Android build with GameCI on pull requests
-and on demand. Add the `UNITY_LICENSE`, `UNITY_EMAIL` and `UNITY_PASSWORD` repository secrets first (see game.ci).
-<!-- /cmpose:ci -->
-
 ## Signing for the stores
 
 Android: copy `keystore.example.properties` to `keystore.properties` (it is git-ignored) and fill in `storeFile`,
